@@ -1,10 +1,24 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt"; // ✅ use only ONE (bcrypt)
 import jwt from "jsonwebtoken";
-import { User } from "./auth.model.js";
-import { env } from "../../config/env.js";
+import User from "./auth.model.js";
+import { JWT_SECRET, JWT_EXPIRES_IN } from "../../config/jwt.js";
 
+// 🔥 Generate JWT Token
+export const generateToken = (user) => {
+    return jwt.sign(
+        {
+            id: user._id,
+            role: user.role,
+        },
+        JWT_SECRET,
+        { expiresIn: JWT_EXPIRES_IN }
+    );
+};
+
+// 🔥 Register User
 export const registerUser = async ({ name, email, password, role }) => {
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
         throw new Error("User already exists");
     }
@@ -21,6 +35,7 @@ export const registerUser = async ({ name, email, password, role }) => {
     return user;
 };
 
+// 🔥 Login User
 export const loginUser = async ({ email, password }) => {
     const user = await User.findOne({ email }).select("+password");
 
@@ -29,18 +44,12 @@ export const loginUser = async ({ email, password }) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
         throw new Error("Invalid credentials");
     }
 
-    const token = jwt.sign(
-        {
-            id: user._id,
-            role: user.role,
-        },
-        env.jwt.secret,
-        { expiresIn: env.jwt.expiresIn }
-    );
+    const token = generateToken(user);
 
     return { user, token };
 };

@@ -11,6 +11,7 @@ export const register = asyncHandler(async (req, res, next) => {
     });
 });
 
+
 export const login = asyncHandler(async (req, res, next) => {
     const { user, token } = await loginUser(req.body);
 
@@ -21,3 +22,4 @@ export const login = asyncHandler(async (req, res, next) => {
         data: user,
     });
 });
+

@@ -1,22 +1,26 @@
 import jwt from "jsonwebtoken";
-import { env } from "../config/env.js";
+import { JWT_SECRET } from "../config/jwt.js";
 
 export const protect = (req, res, next) => {
-    let token;
+    const authHeader = req.headers.authorization;
 
-    if (req.headers.authorization?.startsWith("Bearer")) {
-        token = req.headers.authorization.split(" ")[1];
-    }
-
-    if (!token) {
-        return res.status(401).json({ message: "Not authorized" });
+    // Check if token exists
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ message: "Unauthorized" });
     }
 
     try {
-        const decoded = jwt.verify(token, env.jwt.secret);
+        // Extract token
+        const token = authHeader.split(" ")[1];
+
+        // Verify token
+        const decoded = jwt.verify(token, JWT_SECRET);
+
+        // Attach user to request
         req.user = decoded;
+
         next();
-    } catch (error) {
+    } catch (err) {
         return res.status(401).json({ message: "Invalid token" });
     }
 };
