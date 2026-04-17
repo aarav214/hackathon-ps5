@@ -9,9 +9,13 @@ import submissionRoutes from "./modules/submissions/submission.routes.js";
 import gigRoutes from "./modules/gigs/gig.routes.js";
 import matchingRoutes from "./modules/matching/matching.routes.js";
 import reviewRoutes from "./modules/reviews/review.routes.js";
+import passport from "./config/passport.js";
+
+
 
 const app = express();
 
+app.use(passport.initialize());
 /**
  * 🔧 Middlewares
  */
