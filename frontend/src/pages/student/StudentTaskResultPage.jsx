@@ -14,11 +14,11 @@ export default function TaskResultPage() {
   }
 
   // Use real data from result if available, otherwise fallback
-  const overallScore = result?.trustScore || 94;
+  const overallScore = result?.trustScore?.trustScore || 94;
   const behaviorScore = result?.behaviorScore || 82;
   const insights = result?.insights || ["Quick to start and decisive", "Iterative and improves work"];
-  const breakdown = result?.breakdown || { execution: 85, communication: 70, adaptability: 90, reliability: 88 };
-  const insightText = result?.insight || "Strong executor, slightly slow in communication";
+  const breakdown = result?.trustScore?.breakdown || { execution: 85, communication: 70, adaptability: 90, reliability: 88 };
+  const insightText = result?.trustScore?.insight || "Strong executor, slightly slow in communication";
 
   return (
     <StudentDashboardLayout>

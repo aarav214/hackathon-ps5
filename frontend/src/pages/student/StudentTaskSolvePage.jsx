@@ -85,8 +85,8 @@ export default function StudentTaskSolvePage() {
         body: JSON.stringify({ submissionId, content: JSON.stringify(localFiles) })
       });
       const data = await response.json();
-      if (data.success) {
-        navigate(`/student/tasks/${task.id}/result`, { state: { result: data.data } });
+      if (data.behaviorScore) {
+        navigate(`/student/tasks/${task.id}/result`, { state: { result: data } });
       }
     } catch (error) {
       console.error('Submission failed:', error);

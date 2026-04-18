@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const submissionSchema = new mongoose.Schema(
     {
-        user: {
+        userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true,
         },
 
-        task: {
+        taskId: {
             type: String, // String to handle custom IDs like PRC-101
             required: true,
         },

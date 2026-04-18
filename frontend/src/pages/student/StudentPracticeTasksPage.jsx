@@ -82,8 +82,8 @@ export default function StudentPracticeTasksPage() {
         body: JSON.stringify({ submissionId, content: JSON.stringify(localFiles) })
       });
       const data = await response.json();
-      if (data.success) {
-        navigate(`/student/tasks/${task.id}/result`, { state: { result: data.data } });
+      if (data.behaviorScore) {
+        navigate(`/student/tasks/${task.id}/result`, { state: { result: data } });
       }
     } catch (error) {
       console.error('Practice submission failed:', error);

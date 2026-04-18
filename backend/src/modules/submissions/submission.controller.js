@@ -7,8 +7,8 @@ import { successResponse, errorResponse } from "../../utils/response.js";
 export const startTask = asyncHandler(async (req, res) => {
     const { taskId } = req.body;
     const submission = await Submission.create({
-        user: req.user.id,
-        task: taskId,
+        userId: req.user.id,
+        taskId: taskId,
         startedAt: new Date()
     });
     return successResponse(res, submission, "Task started");
@@ -59,7 +59,7 @@ export const submitTask = asyncHandler(async (req, res) => {
     
     await submission.save();
 
-    return successResponse(res, {
+    return res.json({
         behaviorScore: behaviorData.behaviorScore,
         insights: behaviorData.insights,
         trustScore: {
@@ -67,17 +67,17 @@ export const submitTask = asyncHandler(async (req, res) => {
             breakdown: trustData.breakdown,
             insight: trustData.insight
         }
-    }, "Task evaluated successfully");
+    });
 });
 
 // 6️⃣ GET ALL SUBMISSIONS (for Company)
 export const getSubmissions = asyncHandler(async (req, res) => {
     // If company, get tasks they created, then find those submissions
     // For now, let's keep it simple: get all for the demo, or filter by user type
-    const query = req.user.role === 'company' ? {} : { user: req.user.id };
+    const query = req.user.role === 'company' ? {} : { userId: req.user.id };
     
     const submissions = await Submission.find(query)
-        .populate("user", "name email");
+        .populate("userId", "name email");
         
     return successResponse(res, submissions, "Submissions retrieved");
 });

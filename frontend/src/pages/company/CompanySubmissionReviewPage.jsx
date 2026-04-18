@@ -59,8 +59,8 @@ export default function CompanySubmissionReviewPage() {
         </div>
     ) : (
         submissions.map((sub, index) => {
-            const student = sub.user || { name: 'Anonymous Student' };
-            const task = sub.task || { title: 'General Task' };
+            const student = sub.userId || { name: 'Anonymous Student' };
+            const task = sub.taskId || { title: 'General Task' };
             
             // Generate some mock variables for visual flair
             const statuses = [
