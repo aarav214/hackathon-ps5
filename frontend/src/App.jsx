@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+
 import LandingPage from './LandingPage';
 import AuthPage from './AuthPage';
 import StudentDashboardPage from './StudentDashboardPage';
@@ -36,7 +37,6 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/oauth-success" element={<OAuthCallback />} />
-        
         {/* Student Routes */}
         <Route path="/student/dashboard" element={<StudentDashboardPage />} />
         <Route path="/student/opportunities" element={<StudentOpportunitiesPage />} />
